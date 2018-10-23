@@ -51,6 +51,7 @@ const VSP_JS_Helper = {
 	query_string: require( './parts/query_string' ),
 	okg: require( './parts/okg' ),
 	oks: require( './parts/oks' ),
+	plain_object: require( './parts/plain_object' ),
 
 };
 

@@ -1,0 +1,1 @@
+module.exports = () => ( typeof Object[ 'create' ] !== 'undefined' ) ? Object.create( null ) : {};
