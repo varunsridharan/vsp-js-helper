@@ -1,4 +1,4 @@
-const $vs_boilerplate_v = "1.0.0";
+const $vs_boilerplate_v = "1.0.1";
 
 const $gulp          = require( 'gulp' ),
 	  $util          = require( 'gulp-util' ),
@@ -6,13 +6,16 @@ const $gulp          = require( 'gulp' ),
 	  $notify        = require( 'gulp-notify' ),
 	  $runSequence   = require( 'run-sequence' ),
 	  $minify_css    = require( 'gulp-clean-css' ),
+	  $babel         = require( 'gulp-babel' ),
 	  $concat        = require( 'gulp-concat' ),
+	  $uglify        = require( 'gulp-uglify' ),
 	  $autoprefixer  = require( 'gulp-autoprefixer' ),
 	  $sourcemaps    = require( 'gulp-sourcemaps' ),
 	  $webpack       = require( 'webpack-stream' ),
 	  $parcel        = require( 'gulp-parcel' ),
 	  $combine_files = require( 'gulp-combine-files' ),
 	  $path          = require( 'path' ),
+	  $revert_path   = require( 'gulp-revert-path' ),
 	  $config        = require( './config.js' );
 
 try {
@@ -21,11 +24,11 @@ try {
 
 }
 
-const $defaults_config = $config.default_config,
-	  isObject         = obj => obj === Object( obj ),
-	  $cwd             = ( $full_path ) => $path.relative( process.cwd(), $full_path ),
-	  isUndefined      = val => val === undefined,
-	  vs_config_value  = function( $array, $src, $dest ) {
+const $defaults_config    = $config.default_config,
+	  isObject            = obj => obj === Object( obj ),
+	  $cwd                = ( $full_path ) => $path.relative( process.cwd(), $full_path ),
+	  isUndefined         = val => val === undefined,
+	  vs_config_value     = function( $array, $src, $dest ) {
 		  if( typeof $dest === "undefined" || $dest === '' ) {
 			  let $_src;
 			  for( $_src in $array ) {
@@ -37,9 +40,9 @@ const $defaults_config = $config.default_config,
 		  }
 		  return $dest;
 	  },
-	  $notice          = ( $notice ) => $gulp.src( '' ).pipe( $notify( $notice ) );
+	  $notice             = ( $notice ) => $gulp.src( '' ).pipe( $notify( $notice ) ),
 
-const vs_file_option      = ( $src, $data, $key, $defaults ) => {
+	  vs_file_option      = ( $src, $data, $key, $defaults ) => {
 		  let $return = { src: $src, options: $defaults, dist: $data };
 
 		  if( false === isUndefined( $data ) && true === isObject( $data ) ) {
@@ -103,7 +106,12 @@ const vs_file_option      = ( $src, $data, $key, $defaults ) => {
 	  },
 	  vs_compile_js       = function( $_path, $show_alert ) {
 		  let $instance = new VS_Gulp( $config.js, $_path, vs_config_value( $config.js, $_path ), $show_alert );
-		  $instance.combine_files().parcel().webpack().concat();
+		  $instance.combine_files();
+		  $instance.parcel();
+		  $instance.webpack();
+		  $instance.babel();
+		  $instance.uglify();
+		  $instance.concat();
 		  $instance.save();
 		  return $instance;
 	  },
@@ -130,6 +138,14 @@ const vs_file_option      = ( $src, $data, $key, $defaults ) => {
 		  this.alert    = $show_alert;
 	  };
 
+VS_Gulp.prototype.is_active     = function( global, single ) {
+	if( false === global && false === single ) {
+		return false;
+	} else if( true === global && false === single ) {
+		return false;
+	}
+	return true;
+};
 VS_Gulp.prototype.gulp_instance = function() {
 	return this.instance;
 };
@@ -143,7 +159,7 @@ VS_Gulp.prototype.sourcemap     = function( $save ) {
 	let $is_save = ( false === isUndefined( $save ) );
 	let $options = this.option( 'sourcemap', $defaults_config.sourcemap );
 
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.sourcemap, $options.options ) ) {
 		if( false === $is_save ) {
 			this.instance = this.instance.pipe( $sourcemaps.init() );
 		} else {
@@ -155,26 +171,26 @@ VS_Gulp.prototype.sourcemap     = function( $save ) {
 };
 VS_Gulp.prototype.combine_files = function() {
 	let $options = this.option( 'combine_files', $defaults_config.combine_files );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.combine_files, $options.options ) ) {
 		this.instance = this.instance.pipe( $combine_files( $options.options ) );
-		this.notice( 'Files Combined' );
+		this.notice( 'Combine Files' );
 	}
 	return this;
 };
 VS_Gulp.prototype.scss          = function() {
 	let $options = this.option( 'scss', $defaults_config.scss );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.scss, $options.options ) ) {
 		this.instance = this.instance.pipe( $scss( $options.options ) )
 							.on( 'error', function( err ) {
 								$notice( err );
 							} );
-		this.notice( 'SCSS Compiled' );
+		this.notice( 'SCSS' );
 	}
 	return this;
 };
 VS_Gulp.prototype.autoprefixer  = function() {
 	let $options = this.option( 'autoprefixer', $defaults_config.autoprefixer );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.autoprefixer, $options.options ) ) {
 		this.instance = this.instance.pipe( $autoprefixer( $options.options ) )
 							.on( 'error', $util.log );
 
@@ -185,7 +201,7 @@ VS_Gulp.prototype.autoprefixer  = function() {
 };
 VS_Gulp.prototype.concat        = function() {
 	let $options = this.option( 'concat', $defaults_config.concat );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.concat, $options.options ) ) {
 		if( isObject( $options.options ) && true !== isUndefined( $options.options.filename ) ) {
 			if( $options.src ) {
 				this.instance = this.instance.pipe( $gulp.src( $options.src ) )
@@ -205,8 +221,8 @@ VS_Gulp.prototype.concat        = function() {
 	return this;
 };
 VS_Gulp.prototype.minify        = function() {
-	let $options = this.option( 'minify', $defaults_config.minify_css );
-	if( false !== $options.options ) {
+	let $options = this.option( 'minify', $defaults_config.minify );
+	if( this.is_active( $config.status.minify, $options.options ) ) {
 		this.instance = this.instance.pipe( $minify_css( $options.options.args, $options.options.callback ) )
 							.on( 'error', $util.log );
 		this.notice( 'Minify' );
@@ -215,18 +231,37 @@ VS_Gulp.prototype.minify        = function() {
 };
 VS_Gulp.prototype.webpack       = function() {
 	let $options = this.option( 'webpack', $defaults_config.webpack );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.webpack, $options.options ) ) {
+		this.instance = this.instance.pipe( $revert_path() );
 		this.instance = this.instance.pipe( $webpack( $options.options ) );
 		this.notice( 'Webpack' );
 	}
 	return this;
 };
+VS_Gulp.prototype.babel         = function() {
+	let $options = this.option( 'babel', $defaults_config.babel );
+	if( this.is_active( $config.status.babel, $options.options ) ) {
+		this.instance = this.instance.pipe( $babel( $options.options ) )
+							.on( 'error', $util.log );
+		this.notice( 'Babel' );
+	}
+	return this;
+};
 VS_Gulp.prototype.parcel        = function() {
 	let $options = this.option( 'parcel', $defaults_config.parcel );
-	if( false !== $options.options ) {
+	if( this.is_active( $config.status.parcel, $options.options ) ) {
 		this.instance = this.instance.pipe( $gulp.src( this.src, { read: false } ) );
 		this.instance = this.instance.pipe( $parcel( $options.options ) );
 		this.notice( 'Parcel' );
+	}
+	return this;
+};
+VS_Gulp.prototype.uglify        = function() {
+	let $options = this.option( 'uglify', $defaults_config.uglify );
+	if( this.is_active( $config.status.uglify, $options.options ) ) {
+		this.instance = this.instance.pipe( $uglify( $options.options ) )
+							.on( 'error', $util.log );
+		this.notice( 'Uglify' );
 	}
 	return this;
 };

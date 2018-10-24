@@ -5,11 +5,36 @@ module.exports = {
 		"vsp-js-helper.js": {
 			dist: "./",
 			webpack: true,
+			babel: false,
 			watch: [ './parts/*.js', './parts/*' ],
 			combine_files: false,
 			concat: "vsp-js-helper.dist.js",
 		},
 	},
+	/**
+	 * Settings any feature to false will not trigger for any files untill its
+	 * overridden in file config.
+	 * js:{
+	 *     "your_file_source":{
+	 *         scss:true,
+	 *         dist:"your_file_dist",
+	 *     }
+	 * }
+	 */
+	status: {
+		combine_files: true,
+		minify: true,
+		concat: true,
+		scss: true,
+		sourcemap: true,
+		autoprefixer: true,
+		webpack: true,
+		babel: false,
+		parcel: false,
+		uglify: true,
+		rollup: false,
+	},
+
 	default_config: {
 		combine_files: { append: 'gulp-append', prepend: 'gulp-prepend', inline: 'gulp-inline', },
 		minify_css: { args: {}, callback: false },
