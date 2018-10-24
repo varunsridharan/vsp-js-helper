@@ -47,6 +47,7 @@ module.exports = {
 		},
 		webpack: {
 			mode: "production",
+			"target": "node",
 			output: { filename: '[name].js', },
 			module: { rules: [ { test: /\.js$/, loader: 'babel-loader', options: { presets: [ 'es2015' ] } } ] },
 		},

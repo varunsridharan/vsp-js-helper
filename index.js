@@ -52,6 +52,11 @@ const VSP_JS_Helper = {
 	okg: require( './parts/okg' ),
 	oks: require( './parts/oks' ),
 	plain_object: require( './parts/plain_object' ),
+	isjQuery: require( './parts/isjQuery' ),
+	asjQuery: require( './parts/asjQuery' ),
+	cloneObject: require( './parts/cloneObject' ),
+	hasWindowArg: require( './parts/hasWindowArg' ),
+	asWindowArg: require( './parts/asWindowArg' ),
 
 };
 
