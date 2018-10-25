@@ -1,4 +1,4 @@
-import _isObject from './isObject';
+import is_object from 'locutus/php/var/is_object';
 
 /**
  * Sets JS Object Into Window Args.
@@ -6,7 +6,7 @@ import _isObject from './isObject';
  * @param $value
  */
 module.exports = ( $key, $value ) => {
-	if( _isObject( $key ) ) {
+	if( is_object( $key ) ) {
 		for( let $_k in $key ) {
 			window[ $_k ] = $key[ $_k ];
 		}

@@ -1,4 +1,4 @@
-import isjQuery from './isjQuery';
+import is_jquery from './is_jquery';
 
 /**
  * Returns Given String into A jQuery Object.
@@ -6,7 +6,7 @@ import isjQuery from './isjQuery';
  * @returns {*}
  */
 module.exports = ( $elem ) => {
-	if( false === isjQuery( $elem ) ) {
+	if( false === is_jquery( $elem ) ) {
 		return jQuery( $elem );
 	}
 	return $elem;

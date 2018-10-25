@@ -1,116 +1,274 @@
-let $vsp_helper = {};
+let $vsp_helper = {
+	array_combine: require( 'locutus/php/array/array_combine' ),
+	array_count_values: require( 'locutus/php/array/array_count_values' ),
+	array_fill: require( 'locutus/php/array/array_fill' ),
+	array_fill_keys: require( 'locutus/php/array/array_fill_keys' ),
+	array_filter: require( 'locutus/php/array/array_filter' ),
+	array_flip: require( 'locutus/php/array/array_flip' ),
+	array_key_exists: require( 'locutus/php/array/array_key_exists' ),
+	array_keys: require( 'locutus/php/array/array_keys' ),
+	array_map: require( 'locutus/php/array/array_map' ),
+	array_merge: require( 'locutus/php/array/array_merge' ),
+	array_merge_recursive: require( 'locutus/php/array/array_merge_recursive' ),
+	array_reverse: require( 'locutus/php/array/array_reverse' ),
+	array_search: require( 'locutus/php/array/array_search' ),
+	array_sum: require( 'locutus/php/array/array_sum' ),
+	array_unique: require( 'locutus/php/array/array_unique' ),
+	array_values: require( 'locutus/php/array/array_values' ),
+	array_walk: require( 'locutus/php/array/array_walk' ),
+	array_walk_recursive: require( 'locutus/php/array/array_walk_recursive' ),
+	count: require( 'locutus/php/array/count' ),
+	current: require( 'locutus/php/array/current' ),
+	end: require( 'locutus/php/array/end' ),
+	in_array: require( 'locutus/php/array/in_array' ),
+	key: require( 'locutus/php/array/key' ),
+	next: require( 'locutus/php/array/next' ),
+	pos: require( 'locutus/php/array/pos' ),
+	prev: require( 'locutus/php/array/prev' ),
+	range: require( 'locutus/php/array/range' ),
+	reset: require( 'locutus/php/array/reset' ),
+	sizeof: require( 'locutus/php/array/sizeof' ),
+	array_to_csv: require( './parts/array_to_csv' ),
+	array_to_html_attr: require( './parts/array_to_html_attr' ),
+	array_to_html: require( './parts/array_to_html' ),
+	array_to_window: require( './parts/array_to_window' ),
+	wrap_array: require( './parts/wrap_array' ),
+	okg: require( './parts/okg' ),
+	oks: require( './parts/oks' ),
+	plain_object: require( './parts/plain_object' ),
+	clone_object: require( './parts/clone_object' ),
+	date: require( 'locutus/php/datetime/date' ),
+	date_parse: require( 'locutus/php/datetime/date_parse' ),
+	getdate: require( 'locutus/php/datetime/getdate' ),
+	microtime: require( 'locutus/php/datetime/microtime' ),
+	strtotime: require( 'locutus/php/datetime/strtotime' ),
+	time: require( 'locutus/php/datetime/time' ),
+	is_after_date: require( './parts/is_after_date' ),
+	is_before_date: require( './parts/is_before_date' ),
+	is_same_date: require( './parts/is_same_date' ),
+	format_duration: require( './parts/format_duration' ),
+	diff_days: require( './parts/diff_days' ),
+	basename: require( 'locutus/php/filesystem/basename' ),
+	dirname: require( 'locutus/php/filesystem/dirname' ),
+	pathinfo: require( 'locutus/php/filesystem/pathinfo' ),
+	call_user_func: require( 'locutus/php/funchand/call_user_func' ),
+	call_user_func_array: require( 'locutus/php/funchand/call_user_func_array' ),
+	function_exists: require( 'locutus/php/funchand/function_exists' ),
+	version_compare: require( 'locutus/php/info/version_compare' ),
+	json_to_csv: require( './parts/json_to_csv' ),
+	uniqid: require( 'locutus/php/misc/uniqid' ),
+	count_chars: require( 'locutus/php/strings/count_chars' ),
+	explode: require( 'locutus/php/strings/explode' ),
+	implode: require( 'locutus/php/strings/implode' ),
+	ltrim: require( 'locutus/php/strings/ltrim' ),
+	md5: require( 'locutus/php/strings/md5' ),
+	nl2br: require( 'locutus/php/strings/nl2br' ),
+	number_format: require( 'locutus/php/strings/number_format' ),
+	parse_str: require( 'locutus/php/strings/parse_str' ),
+	printf: require( 'locutus/php/strings/printf' ),
+	rtrim: require( 'locutus/php/strings/rtrim' ),
+	split: require( 'locutus/php/strings/split' ),
+	sprintf: require( 'locutus/php/strings/sprintf' ),
+	str_ireplace: require( 'locutus/php/strings/str_ireplace' ),
+	str_pad: require( 'locutus/php/strings/str_pad' ),
+	str_repeat: require( 'locutus/php/strings/str_repeat' ),
+	str_replace: require( 'locutus/php/strings/str_replace' ),
+	str_shuffle: require( 'locutus/php/strings/str_shuffle' ),
+	str_split: require( 'locutus/php/strings/str_split' ),
+	str_word_count: require( 'locutus/php/strings/str_word_count' ),
+	strip_tags: require( 'locutus/php/strings/strip_tags' ),
+	stripslashes: require( 'locutus/php/strings/stripslashes' ),
+	strlen: require( 'locutus/php/strings/strlen' ),
+	strstr: require( 'locutus/php/strings/strstr' ),
+	strtolower: require( 'locutus/php/strings/strtolower' ),
+	strtoupper: require( 'locutus/php/strings/strtoupper' ),
+	strtr: require( 'locutus/php/strings/strtr' ),
+	trim: require( 'locutus/php/strings/trim' ),
+	vprintf: require( 'locutus/php/strings/vprintf' ),
+	vsprintf: require( 'locutus/php/strings/vsprintf' ),
+	wordwrap: require( 'locutus/php/strings/wordwrap' ),
+	to_jquery: require( './parts/to_jquery' ),
+	to_js_func: require( './parts/to_js_func' ),
+	rand_md5: require( './parts/rand_md5' ),
+	base64_decode: require( 'locutus/php/url/base64_decode' ),
+	base64_encode: require( 'locutus/php/url/base64_encode' ),
+	http_build_query: require( 'locutus/php/url/http_build_query' ),
+	parse_url: require( 'locutus/php/url/parse_url' ),
+	rawurldecode: require( 'locutus/php/url/rawurldecode' ),
+	rawurlencode: require( 'locutus/php/url/rawurlencode' ),
+	urldecode: require( 'locutus/php/url/urldecode' ),
+	urlencode: require( 'locutus/php/url/urlencode' ),
+	url_params: require( './parts/url_params' ),
+	query_string: require( './parts/query_string' ),
+	boolval: require( 'locutus/php/var/boolval' ),
+	doubleval: require( 'locutus/php/var/doubleval' ),
+	empty: require( 'locutus/php/var/empty' ),
+	floatval: require( 'locutus/php/var/floatval' ),
+	gettype: require( 'locutus/php/var/gettype' ),
+	intval: require( 'locutus/php/var/intval' ),
+	is_array: require( 'locutus/php/var/is_array' ),
+	is_jquery: require( './parts/is_jquery' ),
+	is_bool: require( 'locutus/php/var/is_bool' ),
+	is_buffer: require( 'locutus/php/var/is_buffer' ),
+	is_callable: require( 'locutus/php/var/is_callable' ),
+	is_double: require( 'locutus/php/var/is_double' ),
+	is_float: require( 'locutus/php/var/is_float' ),
+	is_int: require( 'locutus/php/var/is_int' ),
+	is_integer: require( 'locutus/php/var/is_integer' ),
+	is_long: require( 'locutus/php/var/is_long' ),
+	is_null: require( 'locutus/php/var/is_null' ),
+	is_numeric: require( 'locutus/php/var/is_numeric' ),
+	is_object: require( 'locutus/php/var/is_object' ),
+	is_real: require( 'locutus/php/var/is_real' ),
+	is_scalar: require( 'locutus/php/var/is_scalar' ),
+	is_string: require( 'locutus/php/var/is_string' ),
+	is_unicode: require( 'locutus/php/var/is_unicode' ),
+	is_undefined: require( './parts/is_undefined' ),
+	isset: require( 'locutus/php/var/isset' ),
+	print_r: require( 'locutus/php/var/print_r' ),
+	serialize: require( 'locutus/php/var/serialize' ),
+	unserialize: require( 'locutus/php/var/unserialize' ),
+	var_export: require( 'locutus/php/var/var_export' ),
+	var_dump: require( 'locutus/php/var/var_dump' ),
+	is_tab_focused: require( './parts/is_tab_focused' ),
+	scroll_to_top: require( './parts/scroll_to_top' ),
+	copy_to_clip: require( './parts/copy_to_clip' ),
+	scroll_pos: require( './parts/scroll_pos' ),
+	is_window_arg: require( './parts/is_window_arg' ),
+	window_arg: require( './parts/window_arg' ),
+	device_type: require( './parts/device_type' ),
+	debug: require( './parts/time_taken' ),
+	time_taken: require( './parts/time_taken' ),
+	pipe_log: require( './parts/pipe_log' ),
 
-// String Functions.
-$vsp_helper.sprintf       = require( 'locutus/php/strings/sprintf' );
-$vsp_helper.explode       = require( 'locutus/php/strings/explode' );
-$vsp_helper.base64_decode = require( 'locutus/php/url/base64_decode' );
-$vsp_helper.base64_encode = require( 'locutus/php/url/base64_encode' );
+	//json_decode: require( 'locutus/php/json/json_decode' ),
+	//json_encode: require( 'locutus/php/json/json_encode' ),
+	//UUIDGeneratorBrowser: require( './parts/UUIDGeneratorBrowser' ),
+	//json_last_error: require( 'locutus/php/json/json_last_error' ),
+	//strval: require( 'locutus/php/var/strval' ),
+	//var_dump: require( 'locutus/php/var/var_dump' ),
+	//is_binary: require( 'locutus/php/var/is_binary' ),
+	//str_getcsv: require( 'locutus/php/strings/str_getcsv' ),
+	//chunk_split: require( 'locutus/php/strings/chunk_split' ),
+	//ucfirst: require( 'locutus/php/strings/ucfirst' ),
+	//ucwords: require( 'locutus/php/strings/ucwords' ),
+	//lcfirst: require( 'locutus/php/strings/lcfirst' ),
+	//strrev: require( 'locutus/php/strings/strrev' ),
+	//strspn: require( 'locutus/php/strings/strspn' ),
+	//chop: require( 'locutus/php/strings/chop' ),
+	//chr: require( 'locutus/php/strings/chr' ),
+	//join: require( 'locutus/php/strings/join' ),
+	//ord: require( 'locutus/php/strings/ord' ),
+	//sscanf: require( 'locutus/php/strings/sscanf' ),
+	//str_rot13: require( 'locutus/php/strings/str_rot13' ),
+	//stristr: require( 'locutus/php/strings/stristr' ),
+	//strncmp: require( 'locutus/php/strings/strncmp' ),
+	//strpos: require( 'locutus/php/strings/strpos' ),
+	//strripos: require( 'locutus/php/strings/strripos' ),
+	//strrpos: require( 'locutus/php/strings/strrpos' ),
+	//strtok: require( 'locutus/php/strings/strtok' ),
+	//strcasecmp: require( 'locutus/php/strings/strcasecmp' ),
+	//strchr: require( 'locutus/php/strings/strchr' ),
+	//strcmp: require( 'locutus/php/strings/strcmp' ),
+	//strcoll: require( 'locutus/php/strings/strcoll' ),
+	//strcspn: require( 'locutus/php/strings/strcspn' ),
+	//stripos: require( 'locutus/php/strings/stripos' ),
+	//strnatcasecmp: require( 'locutus/php/strings/strnatcasecmp' ),
+	//strnatcmp: require( 'locutus/php/strings/strnatcmp' ),
+	//strncasecmp: require( 'locutus/php/strings/strncasecmp' ),
+	//strpbrk: require( 'locutus/php/strings/strpbrk' ),
+	//strrchr: require( 'locutus/php/strings/strrchr' ),
+	//money_format: require( 'locutus/php/strings/money_format' ),
+	//nl_langinfo: require( 'locutus/php/strings/nl_langinfo' ),
+	//substr: require( 'locutus/php/strings/substr' ),
+	//substr_compare: require( 'locutus/php/strings/substr_compare' ),
+	///substr_count: require( 'locutus/php/strings/substr_count' ),
+	//substr_replace: require( 'locutus/php/strings/substr_replace' ),
+	//get_html_translation_table: require( 'locutus/php/strings/get_html_translation_table' ),
+	//html_entity_decode: require( 'locutus/php/strings/html_entity_decode' ),
+	//htmlentities: require( 'locutus/php/strings/htmlentities' ),
+	//htmlspecialchars: require( 'locutus/php/strings/htmlspecialchars' ),
+	//htmlspecialchars_decode: require( 'locutus/php/strings/htmlspecialchars_decode' ),
+	//quotemeta: require( 'locutus/php/strings/quotemeta' ),
+	//setlocale: require( 'locutus/php/strings/setlocale' ),
+	//md5_file: require( 'locutus/php/strings/md5_file' ),
+	//echo: require( 'locutus/php/strings/echo' ),
+	//addcslashes: require( 'locutus/php/strings/addcslashes' ),
+	//addslashes: require( 'locutus/php/strings/addslashes' ),
+	//convert_cyr_string: require( 'locutus/php/strings/convert_cyr_string' ),
+	//convert_uuencode: require( 'locutus/php/strings/convert_uuencode' ),
+	//bin2hex: require( 'locutus/php/strings/bin2hex' ),
+	//crc32: require( 'locutus/php/strings/crc32' ),
+	//hex2bin: require( 'locutus/php/strings/hex2bin' ),
+	//levenshtein: require( 'locutus/php/strings/levenshtein' ),
+	//localeconv: require( 'locutus/php/strings/localeconv' ),
+	// metaphone: require( 'locutus/php/strings/metaphone' ),
+	//sha1: require( 'locutus/php/strings/sha1' ),
+	//sha1_file: require( 'locutus/php/strings/sha1_file' ),
+	//quoted_printable_decode: require( 'locutus/php/strings/quoted_printable_decode' ),
+	//quoted_printable_encode: require( 'locutus/php/strings/quoted_printable_encode' ),
+	//similar_text: require( 'locutus/php/strings/similar_text' ),
+	//soundex: require( 'locutus/php/strings/soundex' ),
+	//create_function: require( 'locutus/php/funchand/create_function' ),
+	//get_defined_functions: require( 'locutus/php/funchand/get_defined_functions' ),
+	//array_unshift: require( 'locutus/php/array/array_unshift' ),
+	//array_shift: require( 'locutus/php/array/array_shift' ),
+	//array_slice: require( 'locutus/php/array/array_slice' ),
+	//array_splice: require( 'locutus/php/array/array_splice' ),
+	//array_push: require( 'locutus/php/array/array_push' ),
+	//array_replace: require( 'locutus/php/array/array_replace' ),
+	//array_replace_recursive: require( 'locutus/php/array/array_replace_recursive' ),
+	//array_change_key_case: require( 'locutus/php/array/array_change_key_case' ),
+	//array_chunk: require( 'locutus/php/array/array_chunk' ),
+	//array_diff: require( 'locutus/php/array/array_diff' ),
+	//array_diff_assoc: require( 'locutus/php/array/array_diff_assoc' ),
+	//array_diff_key: require( 'locutus/php/array/array_diff_key' ),
+	//array_diff_uassoc: require( 'locutus/php/array/array_diff_uassoc' ),
+	//array_diff_ukey: require( 'locutus/php/array/array_diff_ukey' ),
+	//array_intersect: require( 'locutus/php/array/array_intersect' ),
+	//array_intersect_assoc: require( 'locutus/php/array/array_intersect_assoc' ),
+	//array_intersect_key: require( 'locutus/php/array/array_intersect_key' ),
+	//array_intersect_uassoc: require( 'locutus/php/array/array_intersect_uassoc' ),
+	//array_intersect_ukey: require( 'locutus/php/array/array_intersect_ukey' ),
+	//array_product: require( 'locutus/php/array/array_product' ),
+	//arsort: require( 'locutus/php/array/arsort' ),
+	//asort: require( 'locutus/php/array/asort' ),
+	//each: require( 'locutus/php/array/each' ),
+	//krsort: require( 'locutus/php/array/krsort' ),
+	//ksort: require( 'locutus/php/array/ksort' ),
+	//natcasesort: require( 'locutus/php/array/natcasesort' ),
+	//natsort: require( 'locutus/php/array/natsort' ),
+	//rsort: require( 'locutus/php/array/rsort' ),
+	//shuffle: require( 'locutus/php/array/shuffle' ),
+	//sort: require( 'locutus/php/array/sort' ),
+	//uasort: require( 'locutus/php/array/uasort' ),
+	//uksort: require( 'locutus/php/array/uksort' ),
+	//usort: require( 'locutus/php/array/usort' ),
+	//array_udiff: require( 'locutus/php/array/array_udiff' ),
+	//array_udiff_assoc: require( 'locutus/php/array/array_udiff_assoc' ),
+	//array_udiff_uassoc: require( 'locutus/php/array/array_udiff_uassoc' ),
+	//array_uintersect: require( 'locutus/php/array/array_uintersect' ),
+	//array_uintersect_uassoc: require( 'locutus/php/array/array_uintersect_uassoc' ),
+	//array_multisort: require( 'locutus/php/array/array_multisort' ),
+	//array_pad: require( 'locutus/php/array/array_pad' ),
+	//array_pop: require( 'locutus/php/array/array_pop' ),
+	//array_rand: require( 'locutus/php/array/array_rand' ),
+	//array_reduce: require( 'locutus/php/array/array_reduce' ),
+	// checkdate: require( 'locutus/php/datetime/checkdate' ),
+	// gettimeofday: require( 'locutus/php/datetime/gettimeofday' ),
+	// gmdate: require( 'locutus/php/datetime/gmdate' ),
+	// gmmktime: require( 'locutus/php/datetime/gmmktime' ),
+	// gmstrftime: require( 'locutus/php/datetime/gmstrftime' ),
+	// idate: require( 'locutus/php/datetime/idate' ),
+	// mktime: require( 'locutus/php/datetime/mktime' ),
+	// strftime: require( 'locutus/php/datetime/strftime' ),
+	// strptime: require( 'locutus/php/datetime/strptime' ),
+	//file_get_contents: require( 'locutus/php/filesystem/file_get_contents' ),
+	//realpath: require( 'locutus/php/filesystem/realpath' ),
+};
 
-// Array & Objects.
-$vsp_helper.arrayToCSV      = require( './parts/arrayToCSV' );
-$vsp_helper.arrayToHTMLAttr = require( './parts/arrayToHTMLAttr' );
-$vsp_helper.arrayToString   = require( './parts/arrayToString' );
-$vsp_helper.arrayWithRange  = require( './parts/arrayWithRange' );
-$vsp_helper.arrayWithValue  = require( './parts/arrayWithValue' );
-$vsp_helper.arrayMerge      = require( 'locutus/php/array/array_merge' );
-$vsp_helper.arrayMergeDeep  = require( 'locutus/php/array/array_merge_recursive' );
-$vsp_helper.arrayToHTML     = require( './parts/arrayToHTML' );
-$vsp_helper.arrayToWindow   = require( './parts/arrayToWindow' );
-$vsp_helper.implode         = require( 'locutus/php/strings/implode' );
-$vsp_helper.chunk           = require( './parts/chunk' );
-$vsp_helper.difference      = require( './parts/difference' );
-$vsp_helper.groupBy         = require( './parts/groupBy' );
-$vsp_helper.first           = require( './parts/first' );
-$vsp_helper.last            = require( './parts/last' );
-$vsp_helper.filter          = require( './parts/filter' );
-$vsp_helper.join            = require( './parts/join' );
-$vsp_helper.castArray       = require( './parts/castArray' );
-$vsp_helper.okg             = require( './parts/okg' );
-$vsp_helper.oks             = require( './parts/oks' );
-$vsp_helper.plain_object    = require( './parts/plain_object' );
-$vsp_helper.cloneObject     = require( './parts/cloneObject' );
+//Others
+$vsp_helper.counter = require( './parts/counter' );
 
-// Data Types.
-$vsp_helper.is              = require( './parts/is' );
-$vsp_helper.isArrayLike     = require( './parts/isArrayLike' );
-$vsp_helper.isBoolean       = require( './parts/isBoolean' );
-$vsp_helper.isEmpty         = require( './parts/isEmpty' );
-$vsp_helper.isFunction      = require( './parts/isFunction' );
-$vsp_helper.isNil           = require( './parts/isNil' );
-$vsp_helper.isNull          = require( './parts/isNull' );
-$vsp_helper.isNumber        = require( './parts/isNumber' );
-$vsp_helper.isObject        = require( './parts/isObject' );
-$vsp_helper.isObjectLike    = require( './parts/isObjectLike' );
-$vsp_helper.isString        = require( './parts/isString' );
-$vsp_helper.isUndefined     = require( './parts/isUndefined' );
-$vsp_helper.isValidJSON     = require( './parts/isValidJSON' );
-$vsp_helper.isjQuery        = require( './parts/isjQuery' );
-$vsp_helper.function_exists = require( 'locutus/php/funchand/function_exists' );
-
-// Device Type
-$vsp_helper.detectDeviceType = require( './parts/detectDeviceType' );
-$vsp_helper.isDesktop        = () => ( 'Desktop' === $vsp_helper.detectDeviceType() );
-$vsp_helper.isMobile         = () => ( 'Mobile' === $vsp_helper.detectDeviceType() );
-
-// Browser
-$vsp_helper.isBrowserTabFocused  = require( './parts/isBrowserTabFocused' );
-$vsp_helper.scrollToTop          = require( './parts/scrollToTop' );
-$vsp_helper.UUIDGeneratorBrowser = require( './parts/UUIDGeneratorBrowser' );
-$vsp_helper.copyToClipboard      = require( './parts/copyToClipboard' );
-$vsp_helper.getScrollPosition    = require( './parts/getScrollPosition' );
-$vsp_helper.hasWindowArg         = require( './parts/hasWindowArg' );
-$vsp_helper.asWindowArg          = require( './parts/asWindowArg' );
-
-// Debug
-$vsp_helper.debug     = require( './parts/timeTaken' );
-$vsp_helper.timeTaken = require( './parts/timeTaken' );
-$vsp_helper.pipeLog   = require( './parts/pipeLog' );
-
-// File System
-$vsp_helper.basename = require( 'locutus/php/filesystem/basename' );
-$vsp_helper.dirname  = require( 'locutus/php/filesystem/dirname' );
-$vsp_helper.pathinfo = require( 'locutus/php/filesystem/pathinfo' );
-
-// URL
-$vsp_helper.parse_url        = require( 'locutus/php/url/parse_url' );
-$vsp_helper.url_query_build  = require( 'locutus/php/url/http_build_query' );
-$vsp_helper.rawurldecode     = require( 'locutus/php/url/rawurldecode' );
-$vsp_helper.rawurlencode     = require( 'locutus/php/url/rawurlencode' );
-$vsp_helper.urldecode        = require( 'locutus/php/url/urldecode' );
-$vsp_helper.urlencode        = require( 'locutus/php/url/urlencode' );
-$vsp_helper.getURLParameters = require( './parts/getURLParameters' );
-$vsp_helper.query_string     = require( './parts/query_string' );
-
-//JSON
-$vsp_helper.JSONtoCSV       = require( './parts/JSONtoCSV' );
-$vsp_helper.json_last_error = require( 'locutus/php/json/json_last_error' );
-$vsp_helper.json_encode     = require( 'locutus/php/json/json_encode' );
-$vsp_helper.json_decode     = require( 'locutus/php/json/json_decode' );
-
-// Date
-$vsp_helper.isAfterDate             = require( './parts/isAfterDate' );
-$vsp_helper.isBeforeDate            = require( './parts/isBeforeDate' );
-$vsp_helper.isSameDate              = require( './parts/isSameDate' );
-$vsp_helper.formatDuration          = require( './parts/formatDuration' );
-$vsp_helper.getDaysDiffBetweenDates = require( './parts/getDaysDiffBetweenDates' );
-$vsp_helper.date                    = require( 'locutus/php/datetime/date' );
-$vsp_helper.strtotime               = require( 'locutus/php/datetime/strtotime' );
-$vsp_helper.time                    = require( 'locutus/php/datetime/time' );
-$vsp_helper.microtime               = require( 'locutus/php/datetime/microtime' );
-$vsp_helper.date_parse              = require( 'locutus/php/datetime/date_parse' );
-
-// Function Handler.
-$vsp_helper.call_user_func       = require( 'locutus/php/funchand/call_user_func' );
-$vsp_helper.call_user_func_array = require( 'locutus/php/funchand/call_user_func_array' );
-$vsp_helper.call_func            = $vsp_helper.call_user_func;
-$vsp_helper.call_func_array      = $vsp_helper.call_user_func_array;
-
-// Others.
-$vsp_helper.md5      = require( 'locutus/php/strings/md5' );
-$vsp_helper.rand_md5 = require( './parts/rand_md5' );
-$vsp_helper.counter  = require( './parts/counter' );
-$vsp_helper.uniqid   = require( 'locutus/php/misc/uniqid' );
-$vsp_helper.asjQuery = require( './parts/asjQuery' );
-$vsp_helper.round    = require( './parts/round' );
-
-module.exports       = $vsp_helper;
+module.exports = $vsp_helper;
+//is_object_like
