@@ -1,2 +1,5 @@
-import VSP_JS_Helper from './index';
-window.VSP_JS_Helper = window.VSP_JS_Helper || VSP_JS_Helper;
+import VSPJSHelper from './index';
+
+module.exports = ( function( window ) {
+	window.VSP_JS_Helper = VSPJSHelper;
+} )( window );

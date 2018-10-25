@@ -1,6 +1,4 @@
-import VSP_JS_Helper from '../index';
-
-module.exports = ( properties, obj, defaultValue, delimiter = '/' ) => {
+let $OKS       = ( properties, obj, defaultValue, delimiter = '/' ) => {
 	properties   = ( typeof properties === 'string' ) ? properties.split( delimiter ) : [ properties ];
 	let property = properties.shift();
 
@@ -10,8 +8,9 @@ module.exports = ( properties, obj, defaultValue, delimiter = '/' ) => {
 
 	if( properties.length ) {
 		properties = properties.join( delimiter );
-		return VSP_JS_Helper.okg( properties, obj[ property ], defaultValue, delimiter );
+		return $OKS( properties, obj[ property ], defaultValue, delimiter );
 	} else {
 		return obj[ property ];
 	}
 };
+module.exports = $OKS;

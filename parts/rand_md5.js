@@ -1,6 +1,7 @@
-import VSP_JS_Helper from '../index';
+import md5 from 'blueimp-md5';
+
 /**
  * Unique random md5
  * @returns {String}
  */
-module.exports = () => String( VSP_JS_Helper.md5( Math.random() + '-' + Math.random() + '-' + Math.random() ) );
+module.exports = () => String( md5( Math.random() + '-' + Math.random() + '-' + Math.random() ) );

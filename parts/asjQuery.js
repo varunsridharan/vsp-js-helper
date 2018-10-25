@@ -1,4 +1,4 @@
-import VSP_JS_HELPER from '../index';
+import isjQuery from './isjQuery';
 
 /**
  * Returns Given String into A jQuery Object.
@@ -6,7 +6,7 @@ import VSP_JS_HELPER from '../index';
  * @returns {*}
  */
 module.exports = ( $elem ) => {
-	if( false === VSP_JS_HELPER.isjQuery( $elem ) ) {
+	if( false === isjQuery( $elem ) ) {
 		return jQuery( $elem );
 	}
 	return $elem;

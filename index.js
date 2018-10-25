@@ -1,5 +1,7 @@
-const VSP_JS_Helper = {
+module.exports = {
 	arrayToCSV: require( './parts/arrayToCSV' ),
+	arrayToHTMLAttr: require( './parts/arrayToHTML' ),
+	arrayToString: require( './parts/arrayToString' ),
 	JSONtoCSV: require( './parts/JSONtoCSV' ),
 	chunk: require( './parts/chunk' ),
 	filter: require( './parts/filter' ),
@@ -41,7 +43,7 @@ const VSP_JS_Helper = {
 	isValidJSON: require( './parts/isValidJSON' ),
 	castArray: require( './parts/castArray' ),
 	getURLParameters: require( './parts/getURLParameters' ),
-	prettyBytes: require( './parts/prettyBytes' ),
+	//prettyBytes: require( './parts/prettyBytes' ),
 	debug: require( './parts/timeTaken' ),
 	timeTaken: require( './parts/timeTaken' ),
 	pipeLog: require( './parts/pipeLog' ),
@@ -57,8 +59,4 @@ const VSP_JS_Helper = {
 	cloneObject: require( './parts/cloneObject' ),
 	hasWindowArg: require( './parts/hasWindowArg' ),
 	asWindowArg: require( './parts/asWindowArg' ),
-
 };
-
-module.exports = VSP_JS_Helper;
-

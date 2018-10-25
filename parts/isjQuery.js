@@ -1,8 +1,9 @@
-import VSP_JS_HELPER from '../index';
+import isUndefined from './isUndefined';
+import isString from './isString';
 
 /**
  * Check if given Object / Value is a jQuery Instance.
  * @param $elem
  * @returns {boolean|*}
  */
-module.exports = ( $elem ) => ( false === VSP_JS_HELPER.isUndefined( $elem ) && false === VSP_JS_HELPER.isString( $elem ) && $elem.jQuery );
+module.exports = ( $elem ) => ( false === isUndefined( $elem ) && false === isString( $elem ) && $elem.jQuery );
