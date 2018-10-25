@@ -1,20 +1,10 @@
-import _isObject from './isObject';
-import _isObjectLike from './isObjectLike';
-
-module.exports = ( $data ) => {
-	let return_html = '';
-	for( let I in $data ) {
-		if( _isObject( $data[ I ] ) ) {
-			return_html += ' ' + I + '="';
-			for( let K in $data[ I ] ) {
-				let $value = ( _isObjectLike( $data[ I ][ K ] ) ) ? JSON.stringify( $data[ I ][ K ] ) : $data[ I ][ K ];
-				return_html += $value + ' ';
-			}
-			return_html += '"';
-		} else {
-			let $value = ( _isObjectLike( $data[ I ] ) ) ? JSON.stringify( $data[ I ] ) : $data[ I ];
-			return_html += ' ' + I + '="' + $value + '" ';
-		}
-	}
-	return return_html;
-};
+/**
+ * Converts the given array elements into <li> tags and appends them to the list of the given id.
+ * Use Array.prototype.map(), document.querySelector(), and an anonymous inner closure to create a list of html tags.
+ * @param arr
+ * @param listID
+ * @param tag
+ * @returns {*}
+ */
+module.exports = ( arr, listID, tag = 'li' ) => ( el => ( ( el = document.querySelector( '#' + listID ) ), ( el.innerHTML += arr.map( item => `<${tag}>${item}</${tag}>` )
+																																.join( '' ) ) ) )();
