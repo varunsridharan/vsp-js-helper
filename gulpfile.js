@@ -262,7 +262,7 @@ VS_Gulp.prototype.webpack       = function() {
 	let $options = this.option( 'webpack', 'webpack' );
 	if( this.is_active( $config.status.webpack, $options.options ) ) {
 		this.instance = this.instance.pipe( $revert_path() );
-		this.instance = this.instance.pipe( $webpack( $options.options ));
+		this.instance = this.instance.pipe( $webpack( $options.options ) );
 		this.instance = this.instance.pipe( $revert_path() );
 		this.notice( 'Webpack' );
 	}
@@ -331,5 +331,19 @@ $gulp.task( 'watch:js', function( callback ) {
 $gulp.task( 'watch', function( callback ) {
 	$runSequence( 'watch:scss' );
 	$runSequence( 'watch:js' );
+	callback();
+} );
+
+$gulp.task( 'watch:scss:dev', function( callback ) {
+	vs_watch_scss( true );
+	callback();
+} );
+$gulp.task( 'watch:js:dev', function( callback ) {
+	vs_watch_js( true );
+	callback();
+} );
+$gulp.task( 'watch:dev', function( callback ) {
+	$runSequence( 'watch:scss:dev' );
+	$runSequence( 'watch:js:dev' );
 	callback();
 } );

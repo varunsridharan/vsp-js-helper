@@ -113,6 +113,8 @@ let $vsp_helper = {
 	is_null: require( 'locutus/php/var/is_null' ),
 	is_numeric: require( 'locutus/php/var/is_numeric' ),
 	is_object: require( 'locutus/php/var/is_object' ),
+	is_object_like: require( './parts/is_object_like' ),
+	is_array_like: require( './parts/is_object_like' ),
 	is_real: require( 'locutus/php/var/is_real' ),
 	is_scalar: require( 'locutus/php/var/is_scalar' ),
 	is_string: require( 'locutus/php/var/is_string' ),
