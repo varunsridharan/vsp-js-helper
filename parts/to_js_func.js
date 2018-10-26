@@ -4,11 +4,10 @@ import validateJSFunc from './validateSingleJSFunc';
 
 
 module.exports = ( $data ) => {
-	let $_funcs = wrap_array( $data );
-	if( true === is_object_like( $_funcs ) ) {
-		for( let $key in $_funcs ) {
-			$_funcs[ $key ] = validateJSFunc( $_funcs[ $key ] );
+	if( true === is_object_like( $data ) ) {
+		for( let $key in $data ) {
+			$data[ $key ] = validateJSFunc( $data[ $key ] );
 		}
 	}
-	return $_funcs;
+	return $data;
 };
