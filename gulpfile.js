@@ -1,22 +1,27 @@
 const $vs_boilerplate_v = "1.2.0";
 
-const $gulp          = require( 'gulp' ),
-	  $util          = require( 'gulp-util' ),
-	  $scss          = require( 'gulp-sass' ),
-	  $notify        = require( 'gulp-notify' ),
-	  $runSequence   = require( 'run-sequence' ),
-	  $minify_css    = require( 'gulp-clean-css' ),
-	  $babel         = require( 'gulp-babel' ),
-	  $concat        = require( 'gulp-concat' ),
-	  $uglify        = require( 'gulp-uglify' ),
-	  $autoprefixer  = require( 'gulp-autoprefixer' ),
-	  $sourcemaps    = require( 'gulp-sourcemaps' ),
-	  $webpack       = require( 'webpack-stream' ),
-	  $parcel        = require( 'gulp-parcel' ),
-	  $combine_files = require( 'gulp-combine-files' ),
-	  $path          = require( 'path' ),
-	  $revert_path   = require( 'gulp-revert-path' ),
-	  $config        = require( './config.js' );
+const $gulp            = require( 'gulp' ),
+	  $util            = require( 'gulp-util' ),
+	  $scss            = require( 'gulp-sass' ),
+	  $notify          = require( 'gulp-notify' ),
+	  $runSequence     = require( 'run-sequence' ),
+	  $minify_css      = require( 'gulp-clean-css' ),
+	  $babel           = require( 'gulp-babel' ),
+	  $concat          = require( 'gulp-concat' ),
+	  $uglify          = require( 'gulp-uglify' ),
+	  $autoprefixer    = require( 'gulp-autoprefixer' ),
+	  $sourcemaps      = require( 'gulp-sourcemaps' ),
+	  $webpack         = require( 'webpack-stream' ),
+	  $parcel          = require( 'gulp-parcel' ),
+	  $combine_files   = require( 'gulp-combine-files' ),
+	  $path            = require( 'path' ),
+	  $revert_path     = require( 'gulp-revert-path' ),
+	  spawn            = require( 'child_process' ).spawn;
+let $config            = require( './config.js' );
+let $is_config_watched = false;
+let $current_task      = false;
+let $gulpfile_reload;
+let $watch_lists       = {};
 
 try {
 	const $custom_gulp = require( './gulp-custom.js' );
@@ -24,21 +29,47 @@ try {
 
 }
 
+const watch_config = () => {
+	if( false === $is_config_watched && false !== $current_task ) {
+		$gulp.watch( './config.js', () => {
+			let $_config = false;
+			try {
+				delete require.cache[ require.resolve( './config.js' ) ];
+				$_config = require( './config.js' );
+			} catch( e ) {
+				console.log( e );
+			}
+
+			if( false !== $_config ) {
+				$config = $_config;
+				$runSequence( $current_task );
+				console.log( 'Config Updated !' );
+			}
+		} );
+		$is_config_watched = true;
+	}
+};
+
 const vs_watch_js         = ( $is_js_dev = false ) => {
-		  let $src;
-		  for( $src in $config.js ) {
-			  $gulp.watch( $src, ( a, b ) => vs_compile_js( $cwd( a[ 'path' ] ), true, $is_js_dev ) );
-			  if( true !== isUndefined( $config.js[ $src ][ 'watch' ] ) ) {
-				  $gulp.watch( $config.js[ $src ][ 'watch' ], () => vs_compile_js( $src, true, $is_js_dev ) );
+		  for( let $src in $config.js ) {
+			  if( true === isUndefined( $watch_lists[ $src ] ) ) {
+				  $gulp.watch( $src, ( a, b ) => vs_compile_js( $cwd( a[ 'path' ] ), true, $is_js_dev ) );
+				  $watch_lists[ $src ] = true;
+				  if( false === isUndefined( $config.js[ $src ][ 'watch' ] ) ) {
+					  $gulp.watch( $config.js[ $src ][ 'watch' ], () => vs_compile_js( $src, true, $is_js_dev ) );
+				  }
+
 			  }
 		  }
 	  },
 	  vs_watch_scss       = ( $is_scss_dev = false ) => {
-		  let $src;
-		  for( $src in $config.scss ) {
-			  $gulp.watch( $src, ( a, b ) => vs_compile_scss( $cwd( a[ 'path' ] ), true, $is_scss_dev ) );
-			  if( true !== isUndefined( $config.scss[ $src ][ 'watch' ] ) ) {
-				  $gulp.watch( $config.scss[ $src ][ 'watch' ], () => vs_compile_scss( $src, true, $is_scss_dev ) );
+		  for( let $src in $config.scss ) {
+			  if( true === isUndefined( $watch_lists[ $src ] ) ) {
+				  $gulp.watch( $src, ( a, b ) => vs_compile_scss( $cwd( a[ 'path' ] ), true, $is_scss_dev ) );
+				  $watch_lists[ $src ] = true;
+				  if( true !== isUndefined( $config.scss[ $src ][ 'watch' ] ) ) {
+					  $gulp.watch( $config.scss[ $src ][ 'watch' ], () => vs_compile_scss( $src, true, $is_scss_dev ) );
+				  }
 			  }
 		  }
 	  },
@@ -48,8 +79,7 @@ const vs_watch_js         = ( $is_js_dev = false ) => {
 	  isUndefined         = val => val === undefined,
 	  vs_config_value     = function( $array, $src, $dest ) {
 		  if( typeof $dest === "undefined" || $dest === '' ) {
-			  let $_src;
-			  for( $_src in $array ) {
+			  for( let $_src in $array ) {
 				  if( $path.normalize( $path.format( $path.parse( $_src ) ) ) === $src || $src === $_src ) {
 					  $dest = $array[ $_src ];
 					  break;
@@ -60,7 +90,14 @@ const vs_watch_js         = ( $is_js_dev = false ) => {
 	  },
 	  $notice             = ( $notice ) => $gulp.src( '' ).pipe( $notify( $notice ) ),
 	  vs_file_option      = ( $src, $data, $key, $default_key, $is_dev ) => {
-		  let $defaults  = ( true === $is_dev && false === isUndefined( $defaults_config[ $default_key + '_dev' ] ) ) ? $defaults_config[ $default_key + '_dev' ] : $defaults_config[ $default_key ];
+		  let $defaults = $defaults_config[ $default_key ];
+		  if( true === $is_dev ) {
+			  if( false === isUndefined( $defaults_config[ $default_key + '_dev' ] ) ) {
+				  $defaults = $defaults_config[ $default_key + '_dev' ];
+			  }
+		  }
+
+
 		  let $_defaults = ( false === $config.status[ $key ] ) ? false : $defaults;
 		  let $return    = { src: $src, options: $_defaults, dist: $data };
 
@@ -74,7 +111,7 @@ const vs_watch_js         = ( $is_js_dev = false ) => {
 			  if( isObject( $data ) ) {
 				  let $_data = null;
 
-				  if( true === $is_dev && false === $data[ $key + '_dev' ] || false === isUndefined( $data[ $key + '_dev' ] ) ) {
+				  if( true === $is_dev && ( false === $data[ $key + '_dev' ] || false === isUndefined( $data[ $key + '_dev' ] ) ) ) {
 					  $_data = $data[ $key + '_dev' ];
 				  } else if( false === isUndefined( $data[ $key ] ) ) {
 					  $_data = $data[ $key ];
@@ -101,8 +138,7 @@ const vs_watch_js         = ( $is_js_dev = false ) => {
 							  $return.src = $_d.src;
 							  delete $_d[ 'src' ];
 						  }
-						  let $k;
-						  for( $k in $defaults ) {
+						  for( let $k in $defaults ) {
 							  if( isUndefined( $_d[ $k ] ) ) {
 								  $_d[ $k ] = $defaults[ $k ];
 							  }
@@ -120,27 +156,35 @@ const vs_watch_js         = ( $is_js_dev = false ) => {
 		  return $return;
 	  },
 	  vs_compile_scss     = function( $_path, $show_alert, $is_dev ) {
-		  let $instance = new VS_Gulp( $config.scss, $_path, vs_config_value( $config.scss, $_path ), $show_alert, $is_dev );
-		  $instance.sourcemap();
-		  $instance.combine_files();
-		  $instance.scss();
-		  $instance.autoprefixer();
-		  $instance.concat();
-		  $instance.minify();
-		  $instance.sourcemap( true );
-		  $instance.save();
-		  return $instance;
+		  try {
+			  let $instance = new VS_Gulp( $config.scss, $_path, vs_config_value( $config.scss, $_path ), $show_alert, $is_dev );
+			  $instance.sourcemap();
+			  $instance.combine_files();
+			  $instance.scss();
+			  $instance.autoprefixer();
+			  $instance.concat();
+			  $instance.minify();
+			  $instance.sourcemap( true );
+			  $instance.save();
+			  return $instance;
+		  } catch( e ) {
+			  return e;
+		  }
 	  },
 	  vs_compile_js       = function( $_path, $show_alert, $is_dev ) {
-		  let $instance = new VS_Gulp( $config.js, $_path, vs_config_value( $config.js, $_path ), $show_alert, $is_dev );
-		  $instance.combine_files();
-		  $instance.parcel();
-		  $instance.webpack();
-		  $instance.babel();
-		  $instance.uglify();
-		  $instance.concat();
-		  $instance.save();
-		  return $instance;
+		  try {
+			  let $instance = new VS_Gulp( $config.js, $_path, vs_config_value( $config.js, $_path ), $show_alert, $is_dev );
+			  $instance.combine_files();
+			  $instance.parcel();
+			  $instance.webpack();
+			  $instance.babel();
+			  $instance.uglify();
+			  $instance.concat();
+			  $instance.save();
+			  return $instance;
+		  } catch( e ) {
+			  return e;
+		  }
 	  },
 	  vs_compile_all_scss = function( $current_loop, $is_dev ) {
 		  const $scss_files_keys = Object.keys( $config.scss );
@@ -321,28 +365,52 @@ $gulp.task( 'js:dev', ( cb ) => vs_compile_all_js( 0, true ) );
 
 // Watch SCSS Files
 $gulp.task( 'watch:scss', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch:scss';
+	}
+	watch_config();
 	vs_watch_scss( false );
 	callback();
 } );
 $gulp.task( 'watch:js', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch:js';
+	}
+	watch_config();
 	vs_watch_js( false );
 	callback();
 } );
 $gulp.task( 'watch', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch';
+	}
+	watch_config();
 	$runSequence( 'watch:scss' );
 	$runSequence( 'watch:js' );
 	callback();
 } );
 
 $gulp.task( 'watch:scss:dev', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch:scss:dev';
+	}
+	watch_config();
 	vs_watch_scss( true );
 	callback();
 } );
 $gulp.task( 'watch:js:dev', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch:js:dev';
+	}
+	watch_config();
 	vs_watch_js( true );
 	callback();
 } );
 $gulp.task( 'watch:dev', function( callback ) {
+	if( false === $current_task ) {
+		$current_task = 'watch:dev';
+	}
+	watch_config();
 	$runSequence( 'watch:scss:dev' );
 	$runSequence( 'watch:js:dev' );
 	callback();

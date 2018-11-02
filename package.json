@@ -45,6 +45,7 @@
 		"webpack-stream": "^5.1.1"
 	},
 	"dependencies": {
+		"js-parse-args": "^1.0.0",
 		"locutus": "^2.0.10"
 	},
 	"keywords": [
