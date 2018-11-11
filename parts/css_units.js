@@ -1,6 +1,6 @@
 const isNumberic = require( 'locutus/php/var/is_numeric' );
 
-module.export = ( ( val ) => {
+module.exports = val => {
 	var s = val;
 	if( isNumberic( val ) ) {
 		return val + 'px';
@@ -16,4 +16,4 @@ module.export = ( ( val ) => {
 	} else {
 		return '0px';
 	}
-} );
+};
