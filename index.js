@@ -100,6 +100,7 @@ module.exports[ 'is_numeric' ]            = require( 'locutus/php/var/is_numeric
 module.exports[ 'is_object' ]             = require( 'locutus/php/var/is_object' );
 module.exports[ 'is_scalar' ]             = require( 'locutus/php/var/is_scalar' );
 module.exports[ 'is_string' ]             = require( 'locutus/php/var/is_string' );
+module.exports[ 'is_url' ]                = require( './parts/is_url.js' );
 module.exports[ 'isset' ]                 = require( 'locutus/php/var/isset' );
 module.exports[ 'parse_args' ]            = require( 'js-parse-args' );
 
