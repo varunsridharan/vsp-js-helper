@@ -1,6 +1,6 @@
 {
 	"name": "vsp-js-helper",
-	"version": "1.0.19",
+	"version": "1.0.20",
 	"description": "It Packs Some JS Helper Functions",
 	"main": "gulpfile.js",
 	"scripts": {
