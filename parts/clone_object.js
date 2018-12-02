@@ -3,4 +3,12 @@
  * @param $data
  * @returns {any}
  */
-module.exports = ( $data ) => JSON.parse( JSON.stringify( $data ) );
+module.exports = ( $data ) => {
+	let $return = {};
+	if( typeof $data === 'object' ) {
+		for( let $key in $data ) {
+			$return[ $key ] = $data[ $key ];
+		}
+	}
+	return $return;
+};
