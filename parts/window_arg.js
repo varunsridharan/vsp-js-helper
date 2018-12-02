@@ -10,6 +10,7 @@ module.exports = ( $key, $value ) => {
 		for( let $_k in $key ) {
 			window[ $_k ] = $key[ $_k ];
 		}
+	} else {
+		window[ $key ] = $value;
 	}
-	window[ $key ] = $value;
 };
