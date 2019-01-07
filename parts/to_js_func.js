@@ -1,11 +1,16 @@
-import is_object_like from './is_object_like';
 import validateJSFunc from './validateSingleJSFunc';
-import empty from 'locutus/php/var/empty';
 
+/**
+ * Checks Each Value Of a JS Object And Converts Into JS Callable Function.
+ * @param $data
+ * @param $args_key
+ * @param $contents_key
+ * @returns {*}
+ */
 module.exports = ( $data, $args_key = 'js_args', $contents_key = 'js_contents' ) => {
-	if( true === is_object_like( $data ) ) {
+	if( true === _.isObject( $data ) ) {
 		for( let $key in $data ) {
-			if( !empty( $data[ $key ] ) ) {
+			if( !_.isEmpty( $data[ $key ] ) ) {
 				$data[ $key ] = validateJSFunc( $data[ $key ], $args_key, $contents_key );
 			}
 		}

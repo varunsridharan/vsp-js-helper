@@ -46,7 +46,8 @@
 	},
 	"dependencies": {
 		"js-parse-args": "^1.0.0",
-		"locutus": "^2.0.10"
+		"locutus": "^2.0.10",
+		"lodash": "^4.17.11"
 	},
 	"keywords": [
 		"modules",
