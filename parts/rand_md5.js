@@ -1,4 +1,4 @@
-//import md5 from 'locutus/php/strings/md5';
+import md5 from 'locutus/php/strings/md5';
 
 /**
  * Unique random md5
