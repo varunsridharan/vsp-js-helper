@@ -75,6 +75,13 @@ console.log(vsp_js_helper.rand_md5());
 * [`url_params`](#url_params)
 * [`query_string`](#query_string)
 * [`parse_str`](#parse_str)
+* [`base64_encode`](#base64_encode)
+* [`base64_decode`](#base64_decode)
+* [`rawurldecode`](#rawurldecode)
+* [`rawurlencode`](#rawurlencode)
+* [`urldecode`](#urldecode)
+* [`urlencode`](#urlencode)
+* [`parse_url`](#parse_url)
 
 
 <br>[⬆ Back to top](#manual)
