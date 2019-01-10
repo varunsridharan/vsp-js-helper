@@ -40,13 +40,19 @@ module.exports.is_jquery = require( './parts/is_jquery' );
 
 // Others
 module.exports.to_js_func = require( './parts/to_js_func' );
-module.exports.md5           = require( 'locutus/php/strings/md5' );
+module.exports.md5        = require( 'locutus/php/strings/md5' );
 module.exports.counter    = require( './parts/counter' );
 module.exports.rand_md5   = require( './parts/rand_md5' );
 module.exports.css_units  = require( './parts/css_units' );
 
 // URL Related Functions.
-module.exports.url_params   = require( './parts/url_params' );
-module.exports.query_string = require( './parts/query_string' );
-module.exports.parse_str        = require( 'locutus/php/strings/parse_str' );
-//module.exports.parse_url        = require( 'locutus/php/url/parse_url' );
+module.exports.url_params    = require( './parts/url_params' );
+module.exports.query_string  = require( './parts/query_string' );
+module.exports.parse_str     = require( 'locutus/php/strings/parse_str' );
+module.exports.base64_encode = require( 'locutus/php/url/base64_encode' );
+module.exports.base64_decode = require( 'locutus/php/url/base64_decode' );
+module.exports.rawurldecode  = require( 'locutus/php/url/rawurldecode' );
+module.exports.rawurlencode  = require( 'locutus/php/url/rawurlencode' );
+module.exports.urldecode     = require( 'locutus/php/url/urldecode' );
+module.exports.urlencode     = require( 'locutus/php/url/urlencode' );
+module.exports.parse_url        = require( 'locutus/php/url/parse_url' );
