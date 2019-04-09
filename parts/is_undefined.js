@@ -4,4 +4,4 @@
  * @param val
  * @returns {boolean}
  */
-module.exports = val => val === undefined;
+export default val => val === undefined;

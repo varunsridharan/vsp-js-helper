@@ -4,4 +4,4 @@
  * @param val
  * @returns {*[]}
  */
-module.exports = val => (Array.isArray(val) ? val : [val]);
+export default val => (Array.isArray(val) ? val : [val]);

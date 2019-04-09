@@ -3,4 +3,4 @@
  * Use the Document.hidden property, introduced by the Page Visibility API to check if the browser tab of the page is visible or hidden.
  * @returns {boolean}
  */
-module.exports = () => !document.hidden;
+export default () => !document.hidden;

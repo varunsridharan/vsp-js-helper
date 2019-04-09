@@ -7,7 +7,7 @@
  * @param ms
  * @returns {string}
  */
-module.exports = ms => {
+export default ms => {
 	if( ms < 0 ) ms = -ms;
 	const time = {
 		day: Math.floor( ms / 86400000 ),

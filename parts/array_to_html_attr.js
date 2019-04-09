@@ -1,4 +1,4 @@
-module.exports = ( $data ) => {
+export default ( $data ) => {
 	let return_html = '';
 	for( let I in $data ) {
 		if( _.isObject( $data[ I ] ) ) {

@@ -6,5 +6,5 @@
  * @param tag
  * @returns {*}
  */
-module.exports = ( arr, listID, tag = 'li' ) => ( el => ( ( el = document.querySelector( '#' + listID ) ), ( el.innerHTML += arr.map( item => `<${tag}>${item}</${tag}>` )
+export default ( arr, listID, tag = 'li' ) => ( el => ( ( el = document.querySelector( '#' + listID ) ), ( el.innerHTML += arr.map( item => `<${tag}>${item}</${tag}>` )
 																																.join( '' ) ) ) )();

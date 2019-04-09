@@ -5,7 +5,7 @@
  * @param $contents_key
  * @returns {*}
  */
-module.exports = ( $string, $args_key = 'js_args', $contents_key = 'js_contents' ) => {
+export default ( $string, $args_key = 'js_args', $contents_key = 'js_contents' ) => {
 	if( true === _.isObject( $string ) && false === _.isUndefined( $string[ $args_key ] ) || false === _.isUndefined( $string[ $contents_key ] ) ) {
 		let $args     = ( $string[ $args_key ] === false ) ? false : $string[ $args_key ];
 		let $contents = ( $string[ $contents_key ] === false ) ? false : $string[ $contents_key ];

@@ -5,4 +5,4 @@
  * @param dateB
  * @returns {boolean}
  */
-module.exports = ( dateA, dateB ) => dateA.toISOString() === dateB.toISOString();
+export default ( dateA, dateB ) => dateA.toISOString() === dateB.toISOString();

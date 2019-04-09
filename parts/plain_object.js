@@ -1,1 +1,1 @@
-module.exports = () => ( typeof Object.create  !== 'undefined' ) ? Object.create( null ) : {};
+export default () => ( typeof Object.create  !== 'undefined' ) ? Object.create( null ) : {};

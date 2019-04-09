@@ -3,7 +3,7 @@
  * @param name
  * @returns {string}
  */
-module.exports = ( name ) => {
+export default ( name ) => {
 	name        = name.replace( /[\[]/, "\\[" ).replace( /[\]]/, "\\]" );
 	var regex   = new RegExp( "[\\?&]" + name + "=([^&#]*)" ),
 		results = regex.exec( location.search );

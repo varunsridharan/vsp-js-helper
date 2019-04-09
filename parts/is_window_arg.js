@@ -3,4 +3,4 @@
  * @param $key
  * @returns {boolean}
  */
-module.exports = ( $key ) => ( false === _.isUndefined( window[ $key ] ) );
+export default ( $key ) => ( false === _.isUndefined( window[ $key ] ) );

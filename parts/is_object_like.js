@@ -7,6 +7,6 @@ import is_array from 'locutus/php/var/is_array';
  * @param val
  * @returns {boolean}
  */
-module.exports = ( val ) => {
+export default ( val ) => {
 	return ( is_object( val ) || is_array( val ) );
 };

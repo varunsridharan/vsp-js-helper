@@ -7,7 +7,7 @@ import validateJSFunc from './validateSingleJSFunc';
  * @param $contents_key
  * @returns {*}
  */
-module.exports = ( $data, $args_key = 'js_args', $contents_key = 'js_contents' ) => {
+export default ( $data, $args_key = 'js_args', $contents_key = 'js_contents' ) => {
 	if( true === _.isObject( $data ) ) {
 		for( let $key in $data ) {
 			if( !_.isEmpty( $data[ $key ] ) ) {

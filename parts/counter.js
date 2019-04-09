@@ -11,7 +11,7 @@
  * @param duration
  * @returns {number}
  */
-module.exports = ( selector, start, end, step = 1, duration = 2000 ) => {
+export default ( selector, start, end, step = 1, duration = 2000 ) => {
 	let current = start,
 		_step   = ( end - start ) * step < 0 ? -step : step,
 		timer   = setInterval( () => {

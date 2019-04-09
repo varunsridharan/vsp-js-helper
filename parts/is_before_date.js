@@ -5,4 +5,4 @@
  * @param dateB
  * @returns {boolean}
  */
-module.exports = ( dateA, dateB ) => dateA < dateB;
+export default ( dateA, dateB ) => dateA < dateB;

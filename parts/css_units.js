@@ -1,4 +1,4 @@
-module.exports = val => {
+export default val => {
 	var s = val;
 	if( _.isNumber( val ) ) {
 		return val + 'px';

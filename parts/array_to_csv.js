@@ -7,4 +7,4 @@
  * @param separator
  * @returns {*}
  */
-module.exports = ( arr, separator = ',' ) => arr.map( v => v.map( x => `"${x}"` ).join( separator ) ).join( '\n' );
+export default ( arr, separator = ',' ) => arr.map( v => v.map( x => `"${x}"` ).join( separator ) ).join( '\n' );

@@ -3,7 +3,7 @@
  * @param $data
  * @returns {any}
  */
-module.exports = ( $data ) => {
+export default ( $data ) => {
 	let $return = {};
 	if( typeof $data === 'object' ) {
 		for( let $key in $data ) {

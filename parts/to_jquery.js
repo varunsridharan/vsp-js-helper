@@ -5,7 +5,7 @@ import is_jquery from './is_jquery';
  * @param $elem
  * @returns {*}
  */
-module.exports = ( $elem ) => {
+export default ( $elem ) => {
 	if( false === is_jquery( $elem ) ) {
 		return jQuery( $elem );
 	}

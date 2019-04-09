@@ -6,7 +6,7 @@
  * Remove the <textarea> element from the HTML document. Finally, use Selection().addRange() to recover the original selected range (if any).
  * @param str
  */
-module.exports = str => {
+export default str => {
 	const el = document.createElement( 'textarea' );
 	el.value = str;
 	el.setAttribute( 'readonly', '' );

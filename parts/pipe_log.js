@@ -4,4 +4,4 @@
  * @param data
  * @returns {*}
  */
-module.exports = data => console.log( data ) || data;
+export default data => console.log( data ) || data;

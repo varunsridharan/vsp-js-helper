@@ -13,4 +13,4 @@ let $OKS       = ( properties, obj, defaultValue, delimiter = '/' ) => {
 		return obj[ property ];
 	}
 };
-module.exports = $OKS;
+export default $OKS;

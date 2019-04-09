@@ -4,7 +4,7 @@
  * @param el
  * @returns {{x: number, y: number}}
  */
-module.exports = ( el = window ) => ( {
+export default ( el = window ) => ( {
 	x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
 	y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
 } );
