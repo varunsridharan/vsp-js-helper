@@ -25,9 +25,8 @@
 		"easy-gulp-tasker": "^1.0.5"
 	},
 	"dependencies": {
-		"js-parse-args": "^1.0.2",
-		"locutus": "^2.0.10",
-		"lodash": "^4.17.11"
+		"js-parse-args": "^1.0.3",
+		"locutus": "^2.0.10"
 	},
 	"keywords": [
 		"modules",
