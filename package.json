@@ -25,7 +25,7 @@
 		"easy-gulp-tasker": "^1.0.5"
 	},
 	"dependencies": {
-		"js-parse-args": "^1.0.3",
+		"js-parse-args": "^1.0.5",
 		"locutus": "^2.0.10"
 	},
 	"keywords": [
